@@ -1,8 +1,9 @@
 import random
+import time
 import paho.mqtt.client as mqtt
 
 def on_connect(mqttc, obj, flags, reason_code, properties):
-    print("reason_code: " + str(reason_code))
+    print("connect_status: " + str(reason_code))
 
 
 def on_message(mqttc, obj, msg):
@@ -24,13 +25,9 @@ mqttc.on_connect = on_connect
 mqttc.on_publish = on_publish
 # Uncomment to enable debug messages
 # mqttc.on_log = on_log
-mqttc.connect(host="mqtt.eclipse.org", port=1883)
+mqttc.connect(host="localhost", port=1883)
 
 mqttc.loop_start()
 
-print("tuple")
-(rc, mid) = mqttc.publish(topic="tuple", payload="bar", qos=2)
-print("class")
-infot = mqttc.publish(topic="class", payload="bar", qos=2)
-
-infot.wait_for_publish()
+pubMessage = mqttc.publish(topic="barcodeScanner/test", payload=f"value={random.random()}", qos=2)
+pubMessage.wait_for_publish()
