@@ -1,5 +1,4 @@
 import random
-import time
 import paho.mqtt.client as mqtt
 
 def on_connect(mqttc, obj, flags, reason_code, properties):
