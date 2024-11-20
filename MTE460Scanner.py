@@ -16,7 +16,7 @@ class MTE460Scanner:
         self.mqttc.loop_start()
     
     def publishData(self, dataTopic, dataValue):
-        pubMessage = self.mqttc.publish(dataTopic, dataValue, qos=2)
+        pubMessage = self.mqttc.publish(topic=dataTopic, payload=dataValue, qos=2)
         pubMessage.wait_for_publish()
 
     def run(self):
@@ -33,14 +33,14 @@ class MTE460Scanner:
             qr_codes = self.qr_detector.detect_qr_codes(frame)
             qr_data = self.qr_detector.extract_qr_data(qr_codes)
             print("QR Code Data:", qr_data)
+            self.publishData('QRScanner/num_scans', len(qr_codes))
 
-            if (qr_codes != None):
-                self.publishData('QRScanner/num_scans', qr_codes.__len__)
+            if (qr_data != None):
                 if (qr_data != qr_data_latest):
                     self.publishData('QRScanner/scan_data', qr_data)
                     qr_data_latest = qr_data
 
-            self.draw_qr_code_rectangles(frame, qr_codes)
+            self.qr_detector.draw_qr_code_rectangles(frame, qr_codes)
 
             # Display the frame with detected QR codes
             cv2.imshow("Detect QR Code from Webcam", frame)
@@ -52,7 +52,3 @@ class MTE460Scanner:
 if __name__ == "__main__":
     scanner = MTE460Scanner()
     scanner.run()
-
-
-
-    
