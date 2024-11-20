@@ -8,9 +8,11 @@ import RealTimeQR_Detector
 class MTE460Scanner:
 
     def __init__(self):
+        # Initialize camera & QR Code detector
         self.cap = cv2.VideoCapture(0)
         self.qr_detector = RealTimeQR_Detector.QRCodeDetector()
 
+        # Initialize mqtt client
         self.mqttc = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
         self.mqttc.connect(host="localhost", port=1883)
         self.mqttc.loop_start()
