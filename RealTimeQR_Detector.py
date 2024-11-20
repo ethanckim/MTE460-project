@@ -17,7 +17,7 @@ class QRCodeDetector:
             for qr_code in qr_codes:
                 # Extract the data from the QR code
                 qr_data = qr_code.data.decode('utf-8')
-                print("QR Code Data:", qr_data)
+                return qr_data
 
     def draw_qr_code_rectangles(self, frame, qr_codes):
         if qr_codes:
@@ -39,7 +39,8 @@ class QRCodeDetector:
                 break
 
             qr_codes = self.detect_qr_codes(frame)
-            self.extract_qr_data(qr_codes)
+            qr_data = self.extract_qr_data(qr_codes)
+            print("QR Code Data:", qr_data)
             self.draw_qr_code_rectangles(frame, qr_codes)
 
             # Display the frame with detected QR codes
